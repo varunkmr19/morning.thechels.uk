@@ -13,9 +13,28 @@ import feedparser
 # setup
 root = pathlib.Path(__file__).parent.parent.resolve()
 url_list = [
-    "http://daringfireball.net/feed",
-    "http://macstories.net/feed",
-    "http://thechels.uk/feed/"
+    "http://daringfireball.net/index.xml",
+    "http://feeds.feedburner.com/macstoriesnet",
+    "http://thechels.uk/feed/",
+    "http://xkcd.com/rss.xml",
+    "https://www.cloudflarestatus.com/history.rss",
+    "http://blog.agilebits.com/feed/",
+    "https://status.dropbox.com/history.rss",
+    "http://feeds.feedburner.com/Garmin",
+    "http://status.ifttt.com/history.rss",
+    "http://blog.mailgun.net/rss",
+    "http://blog.strava.com/feed/atom/",
+    "http://blog.supertop.co/rss",
+    "https://blog.dropbox.com/feed/",
+    "https://medium.com/feed/strava-engineering",
+    "http://www.politics.co.uk/rss.xml",
+    "https://sixcolors.com/feed.json",
+    "http://feeds.feedburner.com/ReflectivePerspective",
+    "http://the5krunner.com/feed/",
+    "https://www.troyhunt.com/rss/",
+    "http://usesthis.com/feed/",
+    "http://www.wonkhe.com/feed/"
+
 ]
 
 # Replacer function
@@ -44,10 +63,11 @@ if __name__ == "__main__":
     index_page = root / "index.html"
     index_contents = index_page.open().read()
     for url in url_list:
+        print(url)
         entries = fetch_blog_entries(url)[:1]
         data_item_text = "\n".join(["<p>{title}</p><p><small><a href='{url}'>Published: {published}</a></small></p>".format(**entry) for entry in entries])
         print (data_item_text)
-        index_contents = replace_chunk(index_contents, url, data_item_text)
+        index_contents = replace_chunk(index_contents, "content_marker", data_item_text)
     index_page.open("w").write(index_contents)
 
 # get array from Json
