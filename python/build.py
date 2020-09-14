@@ -47,7 +47,7 @@ if __name__ == "__main__":
         entries = fetch_blog_entries(url)[:1]
         data_item_text = "\n".join(["<p>{title}</p><p><small><a href='{url}'>Published: {published}</a></small></p>".format(**entry) for entry in entries])
         index_contents = replace_chunk(index_contents, url, data_item_text)
-        print (index_contents)
+        print ("\n".data_item_text)
     index_page.open("w").write(index_contents)
 
 # get array from Json
