@@ -13,7 +13,7 @@ import feedparser
 # setup
 root = pathlib.Path(__file__).parent.parent.resolve()
 url_list = [
-  #  "http://daringfireball.net/index.xml",
+    "http://daringfireball.net/index.xml",
     "http://feeds.feedburner.com/macstoriesnet",
     "http://thechels.uk/feed/",
     "http://xkcd.com/rss.xml",
@@ -66,9 +66,9 @@ if __name__ == "__main__":
         print(url)
         entries = fetch_blog_entries(url)[:1]
         data_item_text = "\n".join(["<p>{title}</p><p><small><a href='{url}'>Published: {published}</a></small></p>".format(**entry) for entry in entries])
-        print (data_item_text)
         index_contents = replace_chunk(index_contents, "content_marker", data_item_text)
-    index_page.open("w").write(index_contents)
+        keep += index_contents
+    index_page.open("w").write(keep)
 
 # get array from Json
 # foreach url in Json get feed
