@@ -13,7 +13,7 @@ import feedparser
 # setup
 root = pathlib.Path(__file__).parent.parent.resolve()
 url_list = [
-    "http://daringfireball.net/index.xml",
+  #  "http://daringfireball.net/index.xml",
     "http://feeds.feedburner.com/macstoriesnet",
     "http://thechels.uk/feed/",
     "http://xkcd.com/rss.xml",
