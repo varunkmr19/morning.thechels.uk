@@ -30,7 +30,7 @@ jobs:
       run: |-
         python 'python/processing.py'
         cat README.md
-    - name: Commit and push if README changed
+    - name: Commit and push if Index page changed
       run: |-
         git diff
         git config --global user.email "index-updater-bot@example.com"
