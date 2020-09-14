@@ -48,7 +48,7 @@ if __name__ == "__main__":
         data_item_text = "\n".join(["<p>{title}</p><p><small><a href='{url}'>Published: {published}</a></small></p>".format(**entry) for entry in entries])
         index_contents = replace_chunk(index_contents, url, data_item_text)
         print (index_contents)
-    readme.open("w").write(index_contents)
+    index_page.open("w").write(index_contents)
 
 # get array from Json
 # foreach url in Json get feed
