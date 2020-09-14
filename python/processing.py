@@ -33,7 +33,7 @@ url_list = [
     # "http://the5krunner.com/feed/",
     # "https://www.troyhunt.com/rss/",
     # "http://usesthis.com/feed/",
-     "http://www.wonkhe.com/feed/"
+     "https://wonkhe.com/blogs/feed/"
 
 ]
 
