@@ -1,6 +1,7 @@
 name: Build and Process
 # build and tweet
 on:
+  push:
   workflow_dispatch:
   schedule:
     - cron:  '0 5 * * *'

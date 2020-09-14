@@ -60,6 +60,7 @@ def fetch_blog_entries(working_url):
 
 # processing
 if __name__ == "__main__":
+    keep = "<h2>News</h2>"
     index_page = root / "index.html"
     index_contents = index_page.open().read()
     for url in url_list:
