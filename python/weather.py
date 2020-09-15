@@ -20,7 +20,7 @@ response_dict = json.loads(response.text)
 my_loc = response_dict['list'][0]
 string_today = "Today's date is "+ date.today()
 string_weather = "The average temperature today is", str(my_loc['main']['temp'])+"˚C."\
-      , "You should expect", str(my_loc['weather'][0]['description'])+".")
+      , "You should expect", str(my_loc['weather'][0]['description'])+"."
 
 # Replacer function
 def replace_chunk(content, marker, chunk):
