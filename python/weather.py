@@ -16,9 +16,9 @@ url = "http://api.openweathermap.org/data/2.5/find?q=%s&units=metric&APPID=%s" %
 
 response = requests.get(url)
 response_dict = json.loads(response.text)
-
+output_date = date.today()
 my_loc = response_dict['list'][0]
-string_today = "Today's date is "+ date.today()
+string_today = f"Today's date is {output_date}" 
 string_weather = "The average temperature today is", str(my_loc['main']['temp'])+"˚C."\
       , "You should expect", str(my_loc['weather'][0]['description'])+"."
 
