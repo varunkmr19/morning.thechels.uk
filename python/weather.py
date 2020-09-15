@@ -18,9 +18,10 @@ response = requests.get(url)
 response_dict = json.loads(response.text)
 output_date = date.today()
 my_loc = response_dict['list'][0]
-string_today = f"Today's date is {output_date}" 
-string_weather = "The average temperature today is", str(my_loc['main']['temp'])+"˚C."\
-      , "You should expect", str(my_loc['weather'][0]['description'])+"."
+today_weather = str(my_loc['main']['temp'])
+today_desc = str(my_loc['weather'][0]['description'])
+string_today = f"Today's date is {output_date}, Here is your daily briefing..."
+string_weather = f"The average temperature today is {today_weather}˚C. You should expect {today_desc}."
 
 # Replacer function
 def replace_chunk(content, marker, chunk):
