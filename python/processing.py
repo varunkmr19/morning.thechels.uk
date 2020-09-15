@@ -20,11 +20,11 @@ url_list = [
     # "https://www.cloudflarestatus.com/history.rss",
     # "http://blog.agilebits.com/feed/",
     # "https://status.dropbox.com/history.rss",
-    # "http://feeds.feedburner.com/Garmin",
+      "http://feeds.feedburner.com/Garmin",
     # "http://status.ifttt.com/history.rss",
     # "http://blog.mailgun.net/rss",
     # "http://blog.strava.com/feed/atom/",
-    # "http://blog.supertop.co/rss",
+      "http://blog.supertop.co/rss",
     # "https://blog.dropbox.com/feed/",
     # "https://medium.com/feed/strava-engineering",
     # "http://www.politics.co.uk/rss.xml",
@@ -34,7 +34,6 @@ url_list = [
     # "https://www.troyhunt.com/rss/",
     # "http://usesthis.com/feed/",
      "https://wonkhe.com/blogs/feed/"
-
 ]
 
 # Replacer function
@@ -60,16 +59,15 @@ def fetch_blog_entries(working_url):
 
 # processing
 if __name__ == "__main__":
-    keep = "<h2>News</h2>"
+    all_news = "<h2>News</h2>"
     index_page = root / "index.html"
     index_contents = index_page.open().read()
     for url in url_list:
-        print(url)
         entries = fetch_blog_entries(url)[:1]
         data_item_text = "\n".join(["<p>{title}</p><p><small><a href='{url}'>Published: {published}</a></small></p>".format(**entry) for entry in entries])
-        index_contents = replace_chunk(index_contents, "content_marker", data_item_text)
-        keep += index_contents
-    index_page.open("w").write(keep)
+        all_news += data_item_text
+    final_output = replace_chunk(index_contents, "content_marker", all_news)    
+    index_page.open("w").write(final_output)
 
 # get array from Json
 # foreach url in Json get feed
