@@ -27,9 +27,12 @@ jobs:
       run: |
         python -m pip install -r requirements.txt
     - name: Processing
+      env:
+          open_weather_key: ${{ secrets.OPEN_WEATHER_KEY }}
       run: |-
         python 'python/processing.py'
-        cat README.md
+        python 'python/weather.py'
+        cat index.html
     - name: Commit and push if Index page changed
       run: |-
         git diff
