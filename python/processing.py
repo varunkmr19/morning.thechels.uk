@@ -31,8 +31,8 @@ url_list = [
       "http://feeds.feedburner.com/ReflectivePerspective",
       "http://the5krunner.com/feed/",
       "https://www.troyhunt.com/rss/",
-      "http://usesthis.com/feed/",
-      "https://wonkhe.com/blogs/feed/"
+     # "http://usesthis.com/feed/",
+     # "https://wonkhe.com/blogs/feed/"
 ]
 
 # Replacer function
