@@ -9,6 +9,7 @@ import pathlib
 import json
 import requests
 import feedparser
+import urlparse
 
 # setup
 root = pathlib.Path(__file__).parent.parent.resolve()
