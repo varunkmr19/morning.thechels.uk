@@ -1,4 +1,4 @@
-name: Build and Process
+name: Daily Build
 # build and tweet
 on:
   push:
