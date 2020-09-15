@@ -58,8 +58,10 @@ def fetch_blog_entries(working_url):
 
 # Get url parse
 def get_hostname(url):
-    domain = urllib.parse(url)
-    return domain.hostname
+    domain = urlparse(url).hostname
+    print(domain)
+    return domain
+
 
 # processing
 if __name__ == "__main__":
