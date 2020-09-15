@@ -60,7 +60,6 @@ def fetch_blog_entries(working_url):
 # Get url parse
 def get_hostname(url):
     domain = urlparse(url).hostname
-    print(domain)
     return domain
 
 
