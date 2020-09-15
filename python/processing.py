@@ -59,12 +59,12 @@ def fetch_blog_entries(working_url):
 
 # processing
 if __name__ == "__main__":
-    all_news = "<h2>News</h2>"
+    all_news = "<h2>News</h2>\n"
     index_page = root / "index.html"
     index_contents = index_page.open().read()
     for url in url_list:
         entries = fetch_blog_entries(url)[:1]
-        data_item_text = "\n\n".join(["<p>{title}</p><p><small><a href='{url}'>Published: {published}</a></small></p>".format(**entry) for entry in entries])
+        data_item_text = "\n\n".join(["<p>{title}</p><br/><small><a href='{url}'>Published: {published}</a></small>".format(**entry) for entry in entries])
         all_news += data_item_text
     final_output = replace_chunk(index_contents, "content_marker", all_news)
     index_page.open("w").write(final_output)
