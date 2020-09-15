@@ -20,8 +20,7 @@ output_date = date.today()
 my_loc = response_dict['list'][0]
 today_weather = str(my_loc['main']['temp'])
 today_desc = str(my_loc['weather'][0]['description'])
-string_today = f"Today's date is {output_date}, Here is your daily briefing..."
-string_weather = f"The average temperature today is {today_weather}˚C. You should expect {today_desc}."
+string_today = f"Today's date is {output_date}, The average temperature today is {today_weather}˚C. You should expect {today_desc}. Here is your daily briefing..."
 
 # Replacer function
 def replace_chunk(content, marker, chunk):
@@ -37,5 +36,4 @@ if __name__ == "__main__":
     index_page = root / "index.html"
     index_contents = index_page.open().read()
     final_output = replace_chunk(index_contents, "day_marker", string_today)
-    final_output = replace_chunk(final_output, "weather_marker", string_weather)
     index_page.open("w").write(final_output)
