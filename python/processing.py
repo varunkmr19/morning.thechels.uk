@@ -71,7 +71,7 @@ if __name__ == "__main__":
     for url in url_list:
         entries = fetch_blog_entries(url)[:1]
         domain = get_hostname(url)
-        data_item_text = "\n\n".join(["<p><a href='{url}'>{title}</a><br/><small>".domain." | Published: {published}</small></p>".format(**entry) for entry in entries])
+        data_item_text = "\n\n".join(["<p><a href='{url}'>{title}</a><br/><small>" + domain + " | Published: {published}</small></p>".format(**entry) for entry in entries])
         all_news += data_item_text
     final_output = replace_chunk(index_contents, "content_marker", all_news)
     index_page.open("w").write(final_output)
