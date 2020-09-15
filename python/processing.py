@@ -9,15 +9,13 @@ import pathlib
 import json
 import requests
 import feedparser
-import urllib
+from urllib.parse import urlparse
 
 # setup
 root = pathlib.Path(__file__).parent.parent.resolve()
 url_list = [
       "http://daringfireball.net/index.xml",
       "http://feeds.feedburner.com/macstoriesnet",
-    # "http://thechels.uk/feed/",
-    # "http://xkcd.com/rss.xml",
       "https://www.cloudflarestatus.com/history.rss",
       "http://blog.agilebits.com/feed/",
       "https://status.dropbox.com/history.rss",
@@ -58,6 +56,11 @@ def fetch_blog_entries(working_url):
         for entry in entries
     ]
 
+# Get url parse
+def get_hostname(url):
+    domain = urllib.parse(url)
+    return domain.hostname
+
 # processing
 if __name__ == "__main__":
     all_news = "<h2>News</h2>\n"
@@ -65,7 +68,7 @@ if __name__ == "__main__":
     index_contents = index_page.open().read()
     for url in url_list:
         entries = fetch_blog_entries(url)[:1]
-        domain = urllib.parse(url).hostname
+        domain = get_hostname(url)
         data_item_text = "\n\n".join(["<p><a href='{url}'>{title}</a><br/><small>{domain} | Published: {published}</small></p>".format(**entry) for entry in entries])
         all_news += data_item_text
     final_output = replace_chunk(index_contents, "content_marker", all_news)
@@ -74,6 +77,5 @@ if __name__ == "__main__":
 # get array from Json
 # foreach url in Json get feed
 # get last item from eat feed and add them into the html
-
 # get weather
 # provide some links
