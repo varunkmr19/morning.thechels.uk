@@ -34,24 +34,24 @@ def fetch_blog_entries(working_url):
     entries_data = []
     for entry in entries:
 
-        published_matches = list(datefinder.find_dates(entry['published']))
-        pubdate_matches = list(datefinder.find_dates(entry['pubDate']))
-
-        if len(published_matches) > 0:
-            published_str_dt = published_matches[0].strftime("%d %b %Y")
-        elif len(pubdate_matches) > 0:
-            published_str_dt = pubdate_matches[0].strftime("%d %b %Y")
-        else:
+        try:
+            published_matches = list(datefinder.find_dates(entry['published']))
+            if len(published_matches) > 0:
+                published_str_dt = published_matches[0].strftime("%d %b %Y")
+            else:
+                published_str_dt = ""
+        except KeyError:
+            print("published" + entry['link'])
             published_str_dt = ""
 
         entries_data.append({
             "domain": get_hostname(entry["link"].split("#")[0]),
             "title": entry["title"],
             "url": entry["link"].split("#")[0],
-            "published_str_dt": published_str_dt,
+            "published": published_str_dt,
         })
-
-    return entries_data.sort(key=lambda x: x["published_str_dt"], reverse=True)
+    return entries_data
+    #return entries_data.sort(key=lambda x: x["published_str_dt"], reverse=True)
 
 # Get url parse
 def get_hostname(url):
