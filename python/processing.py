@@ -31,15 +31,14 @@ def replace_chunk(content, marker, chunk):
 # Get Entries Function
 def fetch_blog_entries(working_url):
     entries = feedparser.parse(working_url)["entries"]
-
     entries_data = []
     for entry in entries:
         published_dt = list(datefinder.find_dates(entry['published']))
-
         if len(published_dt) == 0:
-            published_str_dt = ""
+            published_dt = list(datefinder.find_dates(entry['pubDate']))
+            if len(published_dt) == 0:
+                published_str_dt = ""
         else:
-            # E.g. Mon, 14 Sep 2020 21:38:24
             published_str_dt = published_dt.strftime("%d %b %Y")
 
         entries_data.append({
@@ -49,7 +48,7 @@ def fetch_blog_entries(working_url):
             "published_str_dt": published_str_dt,
         })
 
-    return entries_data
+    return entries_data.sort(key=lambda x: x["published_str_dt"], reverse=True)
 
 # Get url parse
 def get_hostname(url):
