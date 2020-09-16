@@ -9,6 +9,8 @@ import pathlib
 import json
 import requests
 import feedparser
+import datefinder
+from datetime import datetime
 from urllib.parse import urlparse
 
 # setup
@@ -47,15 +49,25 @@ def replace_chunk(content, marker, chunk):
 # Get Entries Function
 def fetch_blog_entries(working_url):
     entries = feedparser.parse(working_url)["entries"]
-    return [
-        {
+
+    entries_data = []
+    for entry in entries:
+        published_dt = list(datefinder.find_dates(entry['published']))
+
+        if len(published_dt) == 0:
+            published_str_dt = ""
+        else:
+            # E.g. Mon, 14 Sep 2020 21:38:24 
+            published_str_dt = published_dt.strftime("%a, %d %b %Y %H:%M:%S")
+            
+        entries_data.append({
             "domain": get_hostname(entry["link"].split("#")[0]),
             "title": entry["title"],
             "url": entry["link"].split("#")[0],
-            "published": entry["published"].split("T")[0],
-        }
-        for entry in entries
-    ]
+            "published_str_dt": published_str_dt,
+        })
+
+    return entries_data
 
 # Get url parse
 def get_hostname(url):
@@ -68,6 +80,7 @@ if __name__ == "__main__":
     all_news = "<h2>News</h2>\n"
     index_page = root / "index.html"
     index_contents = index_page.open().read()
+
     for url in url_list:
         entries = fetch_blog_entries(url)[:1]
         domain = get_hostname(url)
