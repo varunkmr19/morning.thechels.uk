@@ -33,9 +33,9 @@ def fetch_blog_entries(working_url):
     entries = feedparser.parse(working_url)["entries"]
     entries_data = []
     for entry in entries:
-        published_dt = list(datefinder.find_dates(entry['published']))
+        published_dt = datefinder.find_dates(entry['published'])
         if len(published_dt) == 0:
-            published_dt = list(datefinder.find_dates(entry['pubDate']))
+            published_dt = datefinder.find_dates(entry['pubDate'])
             if len(published_dt) == 0:
                 published_str_dt = ""
         else:
