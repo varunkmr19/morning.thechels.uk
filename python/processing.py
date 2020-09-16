@@ -34,9 +34,9 @@ def fetch_blog_entries(working_url):
     entries_data = []
     for entry in entries:
         published_dt = datefinder.find_dates(entry['published'])
-        if len(published_dt) == 0:
+        if published_dt is None:
             published_dt = datefinder.find_dates(entry['pubDate'])
-            if len(published_dt) == 0:
+            if published_dt is None:
                 published_str_dt = ""
         else:
             published_str_dt = published_dt.strftime("%d %b %Y")
