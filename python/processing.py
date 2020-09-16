@@ -33,13 +33,16 @@ def fetch_blog_entries(working_url):
     entries = feedparser.parse(working_url)["entries"]
     entries_data = []
     for entry in entries:
-        published_dt = datefinder.find_dates(entry['published'])
-        if published_dt is None:
-            published_dt = datefinder.find_dates(entry['pubDate'])
-            if published_dt is None:
-                published_str_dt = ""
+
+        published_matches = list(datefinder.find_dates(entry['published']))
+        pubdate_matches = list(datefinder.find_dates(entry['pubDate']))
+
+        if len(published_matches) > 0:
+            published_str_dt = published_matches[0].strftime("%d %b %Y")
+        elif len(pubdate_matches) > 0:
+            published_str_dt = pubdate_matches[0].strftime("%d %b %Y")
         else:
-            published_str_dt = published_dt.strftime("%d %b %Y")
+            published_str_dt = ""
 
         entries_data.append({
             "domain": get_hostname(entry["link"].split("#")[0]),
