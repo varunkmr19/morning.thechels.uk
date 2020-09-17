@@ -41,7 +41,7 @@ def fetch_blog_entries(working_url):
             else:
                 published_str_dt = ""
         except KeyError:
-            print("issue with published" + entry['link'])
+            print("published" + entry['link'])
             published_str_dt = ""
 
         entries_data.append({
@@ -50,8 +50,8 @@ def fetch_blog_entries(working_url):
             "url": entry["link"].split("#")[0],
             "published": published_str_dt,
         })
-        return entries_data
-        #return entries_data.sort(key=lambda x: x["published"], reverse=True)
+    return entries_data
+    #return entries_data.sort(key=lambda x: x["published_str_dt"], reverse=True)
 
 # Get url parse
 def get_hostname(url):
