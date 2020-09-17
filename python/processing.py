@@ -50,8 +50,7 @@ def fetch_blog_entries(working_url):
             "url": entry["link"].split("#")[0],
             "published": published_str_dt,
         })
-    return entries_data
-    #return entries_data.sort(key=lambda x: x["published_str_dt"], reverse=True)
+    return entries_data.sort(key=lambda x: x["published"], reverse=True)
 
 # Get url parse
 def get_hostname(url):
