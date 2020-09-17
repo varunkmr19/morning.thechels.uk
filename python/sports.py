@@ -32,7 +32,7 @@ root = pathlib.Path(__file__).parent.parent.resolve()
 url = f"https://push.api.bbci.co.uk/b?t=%2Fdata%2Fbbc-morph-football-scores-match-list-data%2FendDate%2F{date}%2FstartDate%2F{date}%2FtodayDate%2F{date}%2Ftournament%2Ffull-priority-order%2Fversion%2F2.4.1?timeout=5"
 response_dict = json.loads(requests.get(url).text)
 tournament_slug = [ 'league-cup','champions-league','premier-league','fa-cup']
-pre_content = "<ul>\n\n"
+pre_content = "<ul>\n"
 
 today_date_string = dtStylish(date.today(), '%A-{th}-%B')
 
@@ -44,7 +44,7 @@ for md_events in list(response_dict['payload'][0]['body']['matchData']):
                 home_name = games['homeTeam']['name']['first']
                 away_name = games['awayTeam']['name']['first']
                 kick_off = games['startTimeInUKHHMM']
-                pre_content += f"<li>{home_name} - {away_name} ({kick_off})</li>\n\n"
+                pre_content += f"<li>{home_name} - {away_name} ({kick_off})</li>\n"
 
 print(pre_content)
 
