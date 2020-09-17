@@ -30,9 +30,10 @@ jobs:
       env:
           open_weather_key: ${{ secrets.OPEN_WEATHER_KEY }}
       run: |-
-        python 'python/processing.py'
+        python 'python/news.py'
         python 'python/weather.py'
         python 'python/sports.py'
+        python 'python/stocks.py'
         cat index.html
     - name: Commit and push if Index page changed
       run: |-

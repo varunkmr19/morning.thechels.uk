@@ -2,3 +2,5 @@ feedparser
 requests
 pathlib
 datefinder
+yahoo_fin
+pandas
