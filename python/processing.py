@@ -50,7 +50,7 @@ def fetch_blog_entries(working_url):
             "url": entry["link"].split("#")[0],
             "published": published_str_dt,
         })
-        return entries.data
+        return entries_data
         #return entries_data.sort(key=lambda x: x["published"], reverse=True)
 
 # Get url parse
