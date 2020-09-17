@@ -1,5 +1,4 @@
 # import
-import os
 import re
 import random
 import pathlib
