@@ -1,6 +1,3 @@
-"""
-Build and Process
-"""
 
  # importing modules
 import os

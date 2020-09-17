@@ -40,13 +40,10 @@ for md_events in list(response_dict['payload'][0]['body']['matchData']):
     for tournaments in (t_item for t_item in md_events if md_events['tournamentMeta']['tournamentSlug'] in tournament_slug):
         for events in md_events['tournamentDatesWithEvents'][today_date_string]:
             for games in events['events']:
-                pprint(games)
                 home_name = games['homeTeam']['name']['first']
                 away_name = games['awayTeam']['name']['first']
                 kick_off = games['startTimeInUKHHMM']
                 pre_content += f"<li>{home_name} - {away_name} ({kick_off})</li>\n"
-
-print(pre_content)
 
 # processing
 if __name__ == "__main__":
