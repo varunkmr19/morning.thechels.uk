@@ -1,6 +1,7 @@
 # import
 import re
 import random
+import json
 import pathlib
 from yahoo_fin import stock_info as si
 

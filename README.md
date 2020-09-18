@@ -19,4 +19,3 @@ In order for this solution to work you need to enter some secrets
 ## Contributing
 
 We welcome pull requests if you want to add more information to the homepage, then we might need to think about having some config to feature switch off certain elements depending on user needs.
-
