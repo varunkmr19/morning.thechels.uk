@@ -29,6 +29,8 @@ jobs:
     - name: Processing
       env:
           open_weather_key: ${{ secrets.OPEN_WEATHER_KEY }}
+          city_code: ${{ secrets.CITY_CODE }}
+          country_code: ${{ secrets.COUNTRY_CODE }}
       run: |-
         python 'python/news.py'
         python 'python/weather.py'

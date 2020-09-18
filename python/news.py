@@ -13,7 +13,7 @@ from urllib.parse import urlparse
 
 # setup
 root = pathlib.Path(__file__).parent.parent.resolve()
-with open( root / "websites.json", 'r') as filehandle:
+with open( root / "config/websites.json", 'r') as filehandle:
   url_list = json.load(filehandle)
 
 # Replacer function

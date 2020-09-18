@@ -5,6 +5,8 @@ import pathlib
 from yahoo_fin import stock_info as si
 
 root = pathlib.Path(__file__).parent.parent.resolve()
+with open( root / "config/stocks.json", 'r') as filehandle:
+  stocks_list = json.load(filehandle)
 
 # Methods
 def replace_chunk(content, marker, chunk):
@@ -22,8 +24,7 @@ def get_stocks(set_of_tickers):
     return string_builder
 
 # Processing
-set_of_tickers = ['AAPL','AMZN','MSFT','IUSA.L','IWDG.L','VWRL.L','UKDV.L','UDVD.L']
-string_output = get_stocks(set_of_tickers)
+string_output = get_stocks(stocks_list)
 print(string_output)
 
 # output
