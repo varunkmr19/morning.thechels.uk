@@ -14,6 +14,10 @@ def ord(n):
 def dtStylish(dt,f):
     return dt.strftime(f).replace("{th}", ord(dt.day))
 
+def pprint(string):
+    json_formatted_str = json.dumps(string, indent=2)
+    print(json_formatted_str)
+
 def replace_chunk(content, marker, chunk):
     replacer = re.compile(
         r"<!\-\- {} starts \-\->.*<!\-\- {} ends \-\->".format(marker, marker),
@@ -22,9 +26,7 @@ def replace_chunk(content, marker, chunk):
     chunk = "<!-- {} starts -->\n{}\n<!-- {} ends -->".format(marker, chunk, marker)
     return replacer.sub(chunk, content)
 
-def pprint(string):
-    json_formatted_str = json.dumps(string, indent=2)
-    print(json_formatted_str)
+
 
 # setup
 date = date.today()
@@ -33,7 +35,8 @@ url = f"https://push.api.bbci.co.uk/b?t=%2Fdata%2Fbbc-morph-football-scores-matc
 response_dict = json.loads(requests.get(url).text)
 with open( root / "config/tournaments.json", 'r') as filehandle:
   tournament_slug = json.load(filehandle)
-pre_content = "<ul>\n"
+
+fixtures = set()
 
 today_date_string = dtStylish(date.today(), '%A-{th}-%B')
 
@@ -44,16 +47,23 @@ for md_events in list(response_dict['payload'][0]['body']['matchData']):
                 home_name = games['homeTeam']['name']['first']
                 away_name = games['awayTeam']['name']['first']
                 kick_off = games['startTimeInUKHHMM']
-                pre_content += f"<li>{home_name} - {away_name} ({kick_off})</li>\n"
+                record = f"<li>({kick_off}) {home_name} - {away_name}</li>\n"
+                if(record not in fixtures):
+                    fixtures.add(record)
 
-if(pre_content is None):
-    pre_content = "<li>No fixtures today</li>"
+if not fixtures:
+    fixtures.add("<li>No fixtures today</li>")
 
+pre_content = ""
+for fixture in sorted(fixtures):
+    pre_content += fixture
+
+print(pre_content)
 
 # processing
 if __name__ == "__main__":
     all_news = "<h2>Fixtures</h2>\n"
     index_page = root / "index.html"
     index_contents = index_page.open().read()
-    final_output = replace_chunk(index_contents, "fixtures_marker", pre_content + "</ul>")
+    final_output = replace_chunk(index_contents, "fixtures_marker", "<ul>\n" + pre_content + "</ul>")
     index_page.open("w").write(final_output)
