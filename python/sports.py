@@ -26,19 +26,16 @@ def replace_chunk(content, marker, chunk):
     chunk = "<!-- {} starts -->\n{}\n<!-- {} ends -->".format(marker, chunk, marker)
     return replacer.sub(chunk, content)
 
-
-
 # setup
+fixtures = set()
+pre_content = ""
 date = date.today()
+today_date_string = dtStylish(date.today(), '%A-{th}-%B')
 root = pathlib.Path(__file__).parent.parent.resolve()
 url = f"https://push.api.bbci.co.uk/b?t=%2Fdata%2Fbbc-morph-football-scores-match-list-data%2FendDate%2F{date}%2FstartDate%2F{date}%2FtodayDate%2F{date}%2Ftournament%2Ffull-priority-order%2Fversion%2F2.4.1?timeout=5"
 response_dict = json.loads(requests.get(url).text)
 with open( root / "config/tournaments.json", 'r') as filehandle:
   tournament_slug = json.load(filehandle)
-
-fixtures = set()
-
-today_date_string = dtStylish(date.today(), '%A-{th}-%B')
 
 for md_events in list(response_dict['payload'][0]['body']['matchData']):
     for tournaments in (t_item for t_item in md_events if md_events['tournamentMeta']['tournamentSlug'] in tournament_slug):
@@ -54,7 +51,6 @@ for md_events in list(response_dict['payload'][0]['body']['matchData']):
 if not fixtures:
     fixtures.add("<li>No fixtures today</li>")
 
-pre_content = ""
 for fixture in sorted(fixtures):
     pre_content += fixture
 
