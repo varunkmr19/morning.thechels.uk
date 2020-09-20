@@ -19,9 +19,9 @@ def replace_chunk(content, marker, chunk):
     return replacer.sub(chunk, content)
 
 def get_stocks(set_of_tickers):
-    string_builder = "<h2>Stocks</h2>\n<ul>\n"
+    string_builder = ""
     for ticker in list(set_of_tickers):
-        string_builder += f"<li>{ticker} : {si.get_live_price(ticker)}</li>\n"
+        string_builder += f"/n<li>{ticker} : {si.get_live_price(ticker)}</li>\n"
     return string_builder
 
 # Processing
@@ -32,5 +32,5 @@ print(string_output)
 if __name__ == "__main__":
     index_page = root / "index.html"
     index_contents = index_page.open().read()
-    final_output = replace_chunk(index_contents, "stocks_marker", string_output + "</ul>")
+    final_output = replace_chunk(index_contents, "stocks_marker", "<ul>/n" + string_output + "</ul>")
     index_page.open("w").write(final_output)
