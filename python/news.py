@@ -10,6 +10,7 @@ import feedparser
 import datefinder
 from datetime import datetime
 from urllib.parse import urlparse
+from operator import itemgetter, attrgetter, methodcaller
 
 # setup
 root = pathlib.Path(__file__).parent.parent.resolve()
@@ -25,47 +26,46 @@ def replace_chunk(content, marker, chunk):
     chunk = "<!-- {} starts -->\n{}\n<!-- {} ends -->".format(marker, chunk, marker)
     return replacer.sub(chunk, content)
 
+class article:
+        def __init__(self, published, title, url):
+                self.published = published
+                self.title = title
+                self.url = url
+                self.domain = self.get_hostname(url)
+        def __repr__(self):
+            return repr((self.published, self.title, self.url, self.domain))
+
+        def get_hostname(self, url):
+            domain = urlparse(url).hostname
+            return domain
+
 # Get Entries Function
-def fetch_blog_entries(working_url):
-    entries = feedparser.parse(working_url)["entries"]
-    entries_data = []
-    for entry in entries:
-
-        try:
-            published_matches = list(datefinder.find_dates(entry['published']))
-            if len(published_matches) > 0:
-                published_str_dt = published_matches[0].strftime("%d %b %Y")
-            else:
+def get_entries(url_list):
+    articles = list()
+    for working_url in url_list:
+        entries = feedparser.parse(working_url)["entries"][:5]
+        for entry in entries:
+            try:
+                published_matches = list(datefinder.find_dates(entry['published']))
+                if len(published_matches) > 0:
+                    published_str_dt = published_matches[0].strftime("%Y-%m-%d %H:%M:%S")
+                else:
+                    published_str_dt = ""
+            except KeyError:
+                print("published" + entry['link'])
                 published_str_dt = ""
-        except KeyError:
-            print("published" + entry['link'])
-            published_str_dt = ""
+            articles.append(article(published_str_dt,entry["title"],entry["link"].split("#")[0]))
+    return articles
 
-        entries_data.append({
-            "domain": get_hostname(entry["link"].split("#")[0]),
-            "title": entry["title"],
-            "url": entry["link"].split("#")[0],
-            "published": published_str_dt,
-        })
-    return entries_data
-    #return entries_data.sort(key=lambda x: x["published_str_dt"], reverse=True)
-
-# Get url parse
-def get_hostname(url):
-    domain = urlparse(url).hostname
-    return domain
 
 # processing
 if __name__ == "__main__":
-    all_news = "<h2>News</h2>\n"
+    all_news = ""
     index_page = root / "index.html"
     index_contents = index_page.open().read()
-
-    for url in url_list:
-        entries = fetch_blog_entries(url)[:1]
-        domain = get_hostname(url)
-        data_item_text = '\n\n'.join(['<p><a href="{url}" target="new">{title}</a><br/><small>{domain} | Published: {published}</small></p>\n'
-                                    .format(**entry) for entry in entries])
-        all_news += data_item_text
-    final_output = replace_chunk(index_contents, "content_marker", all_news)
+    # entries_data = get_entries(url_list)
+    entries_data = sorted(get_entries(url_list), key=attrgetter('published'), reverse=True)
+    for output_articles in entries_data[:15]:
+        all_news += f'<li>{output_articles.title}<br/><small><a href="{output_articles.url}" target="new">{output_articles.domain}</a> | Published {output_articles.published}</small></li>\n'
+    final_output = replace_chunk(index_contents, "content_marker", "<ul>\n" + all_news + "</ul>\n")
     index_page.open("w").write(final_output)
