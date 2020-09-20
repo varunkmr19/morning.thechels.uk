@@ -22,10 +22,6 @@ low_temp = str(my_loc['main']['temp_min'])
 rain = str(my_loc['rain'])
 today_desc = str(my_loc['weather'][0]['description'])
 
-full = response_dict
-print(full)
-
-
 if(rain == "None"):
     rain = "0"
 

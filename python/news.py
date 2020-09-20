@@ -53,18 +53,16 @@ def get_entries(url_list):
                 else:
                     published_str_dt = ""
             except KeyError:
-                print("published" + entry['link'])
+                print("error with publishing " + entry['link'])
                 published_str_dt = ""
             articles.append(article(published_str_dt,entry["title"],entry["link"].split("#")[0]))
     return articles
-
 
 # processing
 if __name__ == "__main__":
     all_news = ""
     index_page = root / "index.html"
     index_contents = index_page.open().read()
-    # entries_data = get_entries(url_list)
     entries_data = sorted(get_entries(url_list), key=attrgetter('published'), reverse=True)
     for output_articles in entries_data[:15]:
         all_news += f'<li>{output_articles.title}<br/><small><a href="{output_articles.url}" target="new">{output_articles.domain}</a> | Published {output_articles.published}</small></li>\n'
