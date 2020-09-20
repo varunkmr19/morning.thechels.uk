@@ -54,8 +54,6 @@ if not fixtures:
 for fixture in sorted(fixtures):
     pre_content += fixture
 
-print(pre_content)
-
 # processing
 if __name__ == "__main__":
     all_news = "<h2>Fixtures</h2>\n"
