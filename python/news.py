@@ -43,6 +43,7 @@ class article:
 def get_entries(url_list):
     articles = list()
     for working_url in url_list:
+        print(working_url)
         entries = feedparser.parse(working_url)["entries"][:5]
         for entry in entries:
             try:
